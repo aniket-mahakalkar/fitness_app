@@ -19,7 +19,7 @@ This is a backend service for a **Fitness Booking Application**, developed using
 
 fitness_app/
 │
-├── instance/ # For Database 
+├── instance/ # For Database (e.g., SQLite files or config)
 ├── models/ # SQLAlchemy models
 ├── routes/ # API route handlers
 ├── seed/ # Seed scripts for instructor data
@@ -30,8 +30,8 @@ fitness_app/
 ├── .python-version
 ├── app.py # Main Flask app entry point
 ├── db.py # Database initialization
-├── index.html # To test working of web sockets and rag application
-├── pyproject.toml # PProject dependencies (used by UV)
+├── index.html # To test WebSocket and RAG application
+├── pyproject.toml # Project dependencies (used by UV)
 
 
 ---
