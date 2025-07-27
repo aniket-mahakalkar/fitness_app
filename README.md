@@ -51,3 +51,7 @@ cd fitness_app
 # Create and activate a virtual environment
 uv venv
 .venv\Scripts\activate
+
+uv add <dependecies (if needed)>
+
+uv run python app.py
