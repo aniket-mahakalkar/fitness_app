@@ -16,7 +16,7 @@ This is a backend service for a **Fitness Booking Application**, developed using
 ---
 
 ## 📁 Project Structure
-
+```
 fitness_app/
 │
 ├── instance/ # For Database (e.g., SQLite files or config)
@@ -32,7 +32,7 @@ fitness_app/
 ├── db.py # Database initialization
 ├── index.html # To test WebSocket and RAG application
 ├── pyproject.toml # Project dependencies (used by UV)
-
+```
 
 ---
 
