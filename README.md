@@ -14,6 +14,8 @@ This is a backend service for a **Fitness Booking Application**, developed using
 - 🌐 HTML support for chat with RAG  (index.html)
 
 ---
+The Postman API's Link is :- https://.postman.co/workspace/My-Workspace~739c091f-fac6-4ec3-8c9b-2b6b7c00b634/collection/40300563-5eaa2d2d-a044-401d-a732-3f040e01c7eb?action=share&creator=40300563
+
 
 ## 📁 Project Structure
 ```
