@@ -3,7 +3,7 @@ import os
 import  re
 import google.generativeai as genai
 import  requests
-from jinja2.utils import missing
+
 
 from  models.models import FitnessClass,Booking
 from  dotenv import load_dotenv
@@ -146,7 +146,7 @@ def detect_intent_and_collect(query, session):
     if match:
         collected["email"] = match.group()
 
-    # Try to extract customer name if user types: "my name is John"
+
     name_match = re.search(r"my name is ([a-zA-Z\s]+)", query.lower())
     if name_match:
         collected["customer_name"] = name_match.group(1).strip().title()
@@ -211,7 +211,7 @@ def format_response(result):
         return result
 
     elif isinstance(result, list):
-        # Handle list of classes or bookings
+
         if all("name" in item and "instructor" in item and "datetime" in item for item in result):
             lines = ["Here are the available fitness classes:\n"]
             emoji_map = {"Yoga": "🧘‍♂️", "Zumba": "💃", "HIIT": "🏋️", "Pilates": "🧎"}
@@ -248,16 +248,16 @@ def format_response(result):
             return json.dumps(result, indent=2)
 
     else:
-        return f"⚠️ Unrecognized response format:\n{str(result)}"
+        return f"️Unrecognized response format:\n{str(result)}"
 
 SAMPLE_BOOKING_FORMAT = """
 Here's how you can book a class:
 
-📍 I want to book a [Class Name] class  
-📧 My email is [your-email@example.com]  
-🙋‍♂️ My name is [Your Name]
+ I want to book a [Class Name] class  
+ My email is [your-email@example.com]  
+️ My name is [Your Name]
 
-✅ Example:
+Example:
 I want to book a Yoga class  
 My email is user212@gmail.com  
 My name is userrname
@@ -278,12 +278,12 @@ def answer_user_query(query):
 
         if missing:
             if "email" in missing:
-                yield "📧 Please provide your email to complete the booking."
+                yield "  Please provide your email to complete the booking."
             if "class_id" in missing:
-                yield "📌 Which class would you like to book? (e.g., Yoga, Zumba, HIIT)"
+                yield " Which class would you like to book? (e.g., Yoga, Zumba, HIIT)"
 
             if "customer_name" in missing:
-                yield "🙋‍♂️ Please tell me your name (e.g., 'My name is Aniket')"
+                yield "️ Please tell me your name (e.g., 'My name is Aniket')"
             yield SAMPLE_BOOKING_FORMAT
 
         else:
@@ -294,7 +294,7 @@ def answer_user_query(query):
                     "customer_name": data["customer_name"]
                 }
                 res = requests.post(f"{BACKEND_URL}/book", json=payload)
-                session["booking"] = {}  # reset session after success
+                session["booking"] = {}
                 if res.status_code == 201:
                     yield f"✅ Booking confirmed for {data['class_name']}!"
                 else:
@@ -312,9 +312,9 @@ def answer_user_query(query):
 
         if missing:
             if "email" in missing:
-                yield "📧 Please provide your email to cancel the booking."
+                yield " Please provide your email to cancel the booking."
             if "class_id" in missing:
-                yield "📌 Which class would you like to cancel? (e.g., Zumba, Yoga)"
+                yield " Which class would you like to cancel? (e.g., Zumba, Yoga)"
         else:
             try:
                 res = requests.delete(f"{BACKEND_URL}/cancel", params={
@@ -323,21 +323,21 @@ def answer_user_query(query):
                 })
                 session["booking"] = {}  # reset
                 if res.status_code == 200:
-                    yield f"✅ Your booking for {data['class_name']} has been canceled."
+                    yield f" Your booking for {data['class_name']} has been canceled."
                 else:
-                    yield f"❌ Failed to cancel: {res.text}"
+                    yield f" Failed to cancel: {res.text}"
             except Exception as e:
-                yield f"⚠️ Error while cancelling: {e}"
+                yield f" Error while cancelling: {e}"
 
     elif intent in ["get_classes", "get_bookings"]:
-        # use RAG + API-based intent detection
+
         result = detect_intent_and_call_api(query)
         yield format_response(result)
 
     else:
-        # only fallback to RAG if no valid intent
+
         response = chat_with_context(query)
         if response.strip():
             yield response.strip()
         else:
-            yield "🤖 I can help you with booking, cancellations, or viewing your classes. Try asking something like 'book a yoga class'."
+            yield " I can help you with booking, cancellations, or viewing your classes. Try asking something like 'book a yoga class'."
